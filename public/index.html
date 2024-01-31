@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Counter App</title>
+</head>
+<body>
+
+  <h1 id="counter-display">Counter: 0</h1>
+  <button id="increase-btn">Increase Counter</button>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const counterDisplay = document.getElementById('counter-display');
+      const increaseBtn = document.getElementById('increase-btn');
+
+      increaseBtn.addEventListener('click', () => {
+        // Trigger the server to increase the counter
+        fetch('/increaseCounter', { method: 'POST' })
+          .then(response => response.json())
+          .then(data => {
+            // Update the counter display with the new value
+            counterDisplay.textContent = `Counter: ${data.counter}`;
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+      });
+    });
+  </script>
+
+</body>
+</html>

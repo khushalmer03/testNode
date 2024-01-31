@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=user
+      - POSTGRES_DB=counter
+  node-app:
+    depends_on:
+      - postgres
+    image: node:14
+    container_name: my-node-app
+    working_dir: /app
+    environment:
+      DB_USER: user
+      DB_HOST: postgres
+      DB_DATABASE: counter
+      DB_PASSWORD: password
+      DB_PORT: 5432
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000" 
+    command: npm start
